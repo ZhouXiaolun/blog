@@ -6,7 +6,7 @@ from www.models import User, Comment, Blog, next_id
 import re, time, json, logging, hashlib, base64, asyncio
 from www import markdown2
 from www.errors import Page, APIValueError, APIPermissionError, APIResourceNotFoundError
-from config.config import configs
+from config import configs
 
 COOKIE_NAME = 'tech2mession'
 # _COOKIE_KEY为configuration_default中的secret

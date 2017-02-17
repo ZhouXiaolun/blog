@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import config.config_default
+import config_default
 
 
 class Dict(dict):
@@ -39,11 +39,11 @@ def toDict(d):
         D[k] = toDict(v) if isinstance(v, dict) else v
     return D
 
-configs = config.config_default.config
+configs = config_default.config
 
 try:
-    import config.config_override
-    configs = merge(configs, config.config_override.configs)
+    import config_override
+    configs = merge(configs, config_override.configs)
 except ImportError:
     pass
 
