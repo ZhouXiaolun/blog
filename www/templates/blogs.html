@@ -1,0 +1,35 @@
+{% extends '__base__.html' %}
+
+{% block title %}主页{% endblock %}
+
+{% block beforehead %}
+
+<script>
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-3-4">
+        {% for blog in blogs %}
+            <article class="uk-article">
+                <h2><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
+                <p class="uk-article-meta">发表于{{ blog.created_at|datetime }}</p>
+                <p>{{ blog.summary }}</p>
+                <p><a href="/blog/{{ blog.id }}">继续阅读<i class="uk-icon-angle-double-right"></i></a></p>
+            </article>
+            <hr class="uk-article-divider">
+        {% endfor %}
+    </div>
+
+    <div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-box">
+            <div class="uk-text-center">
+                <img class="uk-border-circle" width="100" height="100" src="/static/img/admin.jpg" alt="user_image">
+                <h3>Welcome to ZXL'Blog</h3>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
