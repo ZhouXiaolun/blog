@@ -62,9 +62,41 @@
                     </form>
                 </div>
             </article>
+        </div>
 
             <hr class="uk-article-divider">
         {% endif %}
-        </div>
+
     {% endif %}
+
+    <ul class="uk-comment-list">
+        {% for comment in comments %}
+        <li>
+            <article class="uk-comment">
+                <header class="uk-comment-header">
+                    <img class="uk-comment-avatar uk-border-circle" width="50" height="50" src="{{ comment.usr_image }}">
+                    <h4 class="uk-comment-title">{{ comment.user_name }}{% if comment.user_id == blog.user_id %}(作者){% endif %}</h4>
+                    <p class="uk-comment-meta">{{ comment.created_at | datetime }}</p>
+                </header>
+                <div class="uk-comment-body">
+                    {{ comment.html_content | safe }}
+                </div>
+            </article>
+        </li>
+        {% else %}
+        <p>还没有人评论...</p>
+        {% endfor %}
+    </ul>
+
     </div>
+
+    <div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-box">
+            <div class="uk-text-center">
+                <img class="uk-border-circle" width="150" height="150" src="{{ blog.user_img }}">
+                <h3>{{ blog.user_name }}</h3>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
