@@ -7,11 +7,11 @@ config = {
     'db': {
         'host': '127.0.0.1',
         'port': 3306,
-        'user': 'web',
-        'password': 'web',
-        'db': 'blog'
+        'user': 'user',
+        'password': 'passwd',
+        'db': 'dbname'
     },
     'session': {
-        'secret': 'myblog'
+        'secret': 'secret'
     }
 }
