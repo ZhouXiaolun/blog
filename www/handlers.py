@@ -8,6 +8,7 @@ from www import markdown2
 from www.errors import Page, APIValueError, APIPermissionError, APIResourceNotFoundError
 from config import configs
 
+
 COOKIE_NAME = 'tech2mession'
 # _COOKIE_KEY为configuration_default中的secret
 _COOKIE_KEY = configs.session.secret
@@ -235,13 +236,15 @@ async def api_get_users(*, page='1'):
 
 # 后端API:创建新用户 register.html:button-注册
 @post('/api/users')
-async def api_register_user(*, email, name, passwd):
+async def api_register_user(*, email, name, passwd, invite_code):
     if not name or not name.strip():
         raise APIValueError('name')
     if not email or not _RE_EMAIL.match(email):
         raise APIValueError('email')
     if not passwd or not _RE_SHA1.match(passwd):
         raise APIValueError('passwd')
+    if not invite_code or not invite_code.strip() or not invite_code == 'YQTECH2ME3721':
+        raise APIValueError('invite_code')
     users = await User.findAll('email=?', [email])
     if len(users) > 0:
         raise APIValueError('register:failed', 'email', 'Email is already in used.')
@@ -255,6 +258,18 @@ async def api_register_user(*, email, name, passwd):
     r.content_type = 'application/json'
     r.body = json.dumps(user, ensure_ascii=False).encode('utf-8')
     return r
+
+
+# 后端API：获取日志列表 manage_blogs.html
+@get('/api/blogs')
+async def api_blogs(*, page='1'):
+    page_index = get_page_index(page)
+    num = await Blog.findNumber('count(id)')
+    p = Page(num, page_index)
+    if num == 0:
+        return dict(page=p, blogs=())
+    blogs = await Blog.findAll(orderBy='created_at desc', limit=(p.offset, p.limit))
+    return dict(page=p, blogs=blogs)
 
 
 # 后端API:创建日志 manage_blog.html:button-保存
@@ -278,7 +293,7 @@ async def api_update_blog(id, request, *, name, summary, content):
     check_admin(request)
     blog = await Blog.find(id)
     if not name or not name.strip():
-        raise APIValueError('name', 'name cannot be ampty.')
+        raise APIValueError('name', 'name cannot be empty.')
     if not summary or not summary.strip():
         raise APIValueError('summary', 'summary cannot be empty.')
     if not content or not content.strip():

@@ -9,9 +9,9 @@
     function initVM(data) {
         $('#vm').show();
         var vm = new Vue({
-            el: 'vm',
+            el: '#vm',
             data: {
-                user: data.users,
+                users: data.users,
                 page: data.page
             }
         });

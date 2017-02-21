@@ -17,7 +17,8 @@
                 name: '',
                 email: '',
                 password1: '',
-                password2: ''
+                password2: '',
+                invite_code: ''
             },
             methods: {
                 submit: function (event) {
@@ -35,10 +36,14 @@
                     if (this.password1 !== this.password2){
                         return $form.showFormError('两次输入的密码不一致')
                     }
+                    if (! this.invite_code.trim()){
+                        return $form.showFormError('请输入邀请码');
+                    }
                     var email = this.email.trim().toLowerCase();
                     $form.postJSON('/api/users',{
                         name: this.name.trim(),
                         email: email,
+                        invite_code: this.invite_code.trim(),
                         passwd: CryptoJS.SHA1(email + ':' + this.password1).toString()
                     }, function (err, r) {
                         if (err){
@@ -83,6 +88,12 @@
                 <label class="uk-form-label">重复密码：</label>
                 <div class="uk-form-controls">
                     <input v-model="password2" type="password" maxlength="50" placeholder="重复密码" class="uk-width-1-1">
+                </div>
+            </div>
+            <div class="uk-form-row">
+                <label class="uk-form-label">邀请码：</label>
+                <div class="uk-form-controls">
+                    <input v-model="invite_code" type="text" maxlength="50" placeholder="邀请码" class="uk-width-1-1">
                 </div>
             </div>
             <div class="uk-form-row">

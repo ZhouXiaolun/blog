@@ -40,7 +40,7 @@ def init_jinja2(app, **kw):
 
 async def init(loop):
     await orm.create_pool(loop, host='127.0.0.1', port=3306, user='web', password='web', db='blog')
-    app = web.Application(loop=loop, middlewares=[factories.logger_factory, factories.response_factory])
+    app = web.Application(loop=loop, middlewares=[factories.logger_factory, factories.auth_factory, factories.response_factory])
     init_jinja2(app, filters=dict(datetime=datetime_filter))
     add_routes(app, 'handlers')
     add_static(app)
