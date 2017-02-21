@@ -344,7 +344,7 @@ async def api_create_comment(id, request, *, content):
     blog = await Blog.find(id)
     if blog is None:
         raise APIResourceNotFoundError('Blog')
-    comment = Comment(blog_id=blog.id, user_id=user.id, user_image=user.image, content=content.strip())
+    comment = Comment(blog_id=blog.id, user_id=user.id, user_name=user.name, user_image=user.image, content=content.strip())
     await comment.save()
     return comment
 
